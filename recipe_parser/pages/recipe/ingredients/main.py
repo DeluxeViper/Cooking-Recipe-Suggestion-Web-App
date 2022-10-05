@@ -26,8 +26,9 @@ def format_ingredient(ingredient: str):
     ingredient = ingredient.strip()
     # remove parentheses () and brackets [] content
     ingredient = re.sub("[\(\[].*?[\)\]]", "", ingredient)
-    # remove multiple spaces
+    # remove multiple spaces and hyphen delimiters
     ingredient = ingredient.replace("  ", " ")
+    ingredient = ingredient.replace(" - ", " ")
     # convert unicode fractions to floats
     ingredient = convert_vulgar_fraction_to_float(ingredient)
 
