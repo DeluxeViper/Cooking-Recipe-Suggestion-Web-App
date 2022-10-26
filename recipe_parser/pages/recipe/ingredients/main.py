@@ -1,4 +1,4 @@
-import json
+import inflect
 import re
 import unicodedata
 
@@ -8,17 +8,20 @@ from bs4 import BeautifulSoup
 
 
 def get_ingredients(soup_page: BeautifulSoup):
-    structured_ingredients_list = []
+    structured_ingredients = {}
     ingredients_list = soup_page.findAll(
         "li", {"class": "mntl-structured-ingredients__list-item"}
     )
     for ingredient_el in ingredients_list:
         ingredient_raw_text = ingredient_el.get_text()
         ingredient_text = format_ingredient(ingredient_raw_text)
-        ingredient = parse_ingredient(ingredient_text)
-        structured_ingredients_list.append(ingredient.__dict__)
+        ingredient = extract_ingredient(ingredient_text)
+        if ingredient in structured_ingredients:
+            structured_ingredients[ingredient].append(ingredient_text)
+        else:
+            structured_ingredients[ingredient] = [ingredient_text]
 
-    return structured_ingredients_list
+    return structured_ingredients
 
 
 def format_ingredient(ingredient: str):
@@ -31,6 +34,19 @@ def format_ingredient(ingredient: str):
     ingredient = ingredient.replace(" - ", " ")
     # convert unicode fractions to floats
     ingredient = convert_vulgar_fraction_to_float(ingredient)
+
+    return ingredient
+
+
+def extract_ingredient(ingredient_text: str):
+    ingredient_name = parse_ingredient(ingredient_text).__dict__["name"]
+    infl = inflect.engine()
+    try:
+        ingredient_singular = infl.singular_noun(ingredient_name)
+    except Exception:
+        ingredient_singular = "ERRPARSING"
+
+    ingredient = ingredient_singular if ingredient_singular else ingredient_name
 
     return ingredient
 
