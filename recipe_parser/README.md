@@ -2,7 +2,7 @@
 
 A parser script written in Python that will scrape information off of an online recipe resource - [allrecipes][1]
 
-The parser currently produces 1452 recipes.
+The parser currently produces approximately **1400-1500 recipes** and **1931 ingredients**.
 
 ### Initial setup
 
