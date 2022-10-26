@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from helpers import get_page
 
 
-def get_cuisine_page_links():
+def get_cuisine_page_links() -> dict:
     cuisine_list_page = get_page("https://www.allrecipes.com/cuisine-a-z-6740455")
     cuisine_list_page_soup = BeautifulSoup(cuisine_list_page, "lxml")
 

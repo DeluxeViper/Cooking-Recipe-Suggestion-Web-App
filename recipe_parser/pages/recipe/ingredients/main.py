@@ -65,7 +65,9 @@ def convert_vulgar_fraction_to_float(ingredient: str) -> str:
         # ! huge assumption
         whole_number_str = ingredient[:vf_index]
         quantity = float(whole_number_str) + vf_numeric
-        ingredient = ingredient.replace(ingredient[: vf_index + 1], str(quantity))
+        ingredient = ingredient.replace(
+            ingredient[: vf_index + 1], str(round(quantity))
+        )
 
     return ingredient
 

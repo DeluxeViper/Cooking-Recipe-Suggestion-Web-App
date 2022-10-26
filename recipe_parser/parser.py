@@ -11,12 +11,16 @@ cuisine_pages = pages.cuisines.get_cuisine_page_links()
 for cuisine_name in cuisine_pages:
     cuisine_link = cuisine_pages[cuisine_name]
     # get links for each recipe's page of this cuisine
-    cuisine_recipes_links_list = pages.recipes.get_recipe_page_links(cuisine_link)
+    cuisine_recipes_links = pages.recipes.get_recipe_page_links(cuisine_link)
 
-    for recipe_link in cuisine_recipes_links_list:
+    for recipe_link in cuisine_recipes_links:
         # try to extract ingredients from a recipe
         try:
-            recipe = pages.recipe.parse_recipe(recipe_link, cuisine_name, "link")
+            recipe = pages.recipe.parse_recipe(
+                url=recipe_link,
+                cuisine=cuisine_name,
+                img_link=cuisine_recipes_links[recipe_link],
+            )
             print(recipe, "\n")
         # if parsing is unsuccessfull, discard recipe
         except Exception as e:
