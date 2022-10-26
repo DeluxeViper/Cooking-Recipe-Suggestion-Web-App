@@ -28,11 +28,11 @@ for cuisine_name in cuisine_pages:
             continue
 
 json_recipes = json.dumps(recipes)
-fr = open("recipes.json", "w")
+fr = open("./parsed/recipes.json", "w")
 fr.write(json_recipes)
 fr.close()
 
 json_ingredients = json.dumps(list(ingredients))
-fi = open("ingredients.json", "w")
+fi = open("./parsed/ingredients.json", "w")
 fi.write(json_ingredients)
 fi.close()
