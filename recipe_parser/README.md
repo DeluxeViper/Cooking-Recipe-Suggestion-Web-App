@@ -9,7 +9,6 @@ The parser currently produces 1452 recipes.
 In this directory, create a local Python Virtual Environment
 
 ```bash
-cd ./headsman
 python -m venv ./.venv
 ```
 
