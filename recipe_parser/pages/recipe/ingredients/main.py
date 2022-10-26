@@ -7,7 +7,7 @@ from parse_ingredients import parse_ingredient
 from bs4 import BeautifulSoup
 
 
-def get_ingredients(soup_page: BeautifulSoup):
+def get_ingredients(soup_page: BeautifulSoup) -> dict:
     structured_ingredients = {}
     ingredients_list = soup_page.findAll(
         "li", {"class": "mntl-structured-ingredients__list-item"}
@@ -24,7 +24,7 @@ def get_ingredients(soup_page: BeautifulSoup):
     return structured_ingredients
 
 
-def format_ingredient(ingredient: str):
+def format_ingredient(ingredient: str) -> str:
     # remove trailing spaces and newlines
     ingredient = ingredient.strip()
     # remove parentheses () and brackets [] content
@@ -38,7 +38,7 @@ def format_ingredient(ingredient: str):
     return ingredient
 
 
-def extract_ingredient(ingredient_text: str):
+def extract_ingredient(ingredient_text: str) -> str:
     ingredient_name = parse_ingredient(ingredient_text).__dict__["name"]
     infl = inflect.engine()
     try:
@@ -51,7 +51,7 @@ def extract_ingredient(ingredient_text: str):
     return ingredient
 
 
-def convert_vulgar_fraction_to_float(ingredient: str):
+def convert_vulgar_fraction_to_float(ingredient: str) -> str:
     # ! poorly written function
     vf = get_vulgar_fraction(ingredient)
     if not vf:
