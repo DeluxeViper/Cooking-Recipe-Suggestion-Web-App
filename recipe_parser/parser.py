@@ -15,16 +15,17 @@ for cuisine_page_link in cuisine_page_links_list:
     cuisine_recipes_links_list = pages.recipes.get_recipe_page_links(cuisine_page_link)
 
     for recipe_link in cuisine_recipes_links_list:
+        # try to extract ingredients from a recipe
         try:
             recipe_ingredients = pages.recipe.parse_recipe(recipe_link)
+        # if parsing is unsuccessfull, discard recipe
         except Exception as e:
-            print(e)
             continue
+
         for ingredient in recipe_ingredients:
-            ingredient_name = ingredient["name"]
-            if ingredient_name not in recipe_ingredients_set:
-                f.write(ingredient_name + "\n")
-            recipe_ingredients_set.add(ingredient_name)
+            if ingredient not in recipe_ingredients_set:
+                f.write(ingredient + "\n")
+            recipe_ingredients_set.add(ingredient)
 
 
 f.close()
