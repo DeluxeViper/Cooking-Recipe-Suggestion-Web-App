@@ -15,7 +15,7 @@ for cuisine_page_link in cuisine_page_links_list:
     for recipe_link in cuisine_recipes_links_list:
         # try to extract ingredients from a recipe
         try:
-            recipe = pages.recipe.parse_recipe(recipe_link, "cuisine")
+            recipe = pages.recipe.parse_recipe(recipe_link, "cuisine", "link")
             print(recipe, "\n")
         # if parsing is unsuccessfull, discard recipe
         except Exception as e:

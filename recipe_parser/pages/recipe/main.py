@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 from helpers import get_page
 
-from .info import get_name, get_description
+from .info import get_name, get_description, get_details
 from .ingredients import get_ingredients
 from .steps import get_cooking_steps
 
 
-def parse_recipe(url: str, cuisine: str):
+def parse_recipe(url: str, cuisine: str, img_link: str):
     page = get_page(url)
     if not page:
         return None
@@ -17,15 +17,15 @@ def parse_recipe(url: str, cuisine: str):
     description = get_description(soup_page)
     ingredients = get_ingredients(soup_page)
     steps = get_cooking_steps(soup_page)
+    details = get_details(soup_page)
 
     recipe = {
         "name": name,
         "description": description,
         "cuisine": cuisine,
-        "img": "Recipe img",
+        "img": img_link,
         "ingredients": ingredients,
         "steps": steps,
-        "preparation_time": "Recipe preparation time",
-        "cooking_time": "Recipe cooking time",
+        "details": details,
     }
     return recipe
