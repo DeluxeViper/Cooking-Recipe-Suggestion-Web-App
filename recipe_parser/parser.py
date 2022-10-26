@@ -6,16 +6,17 @@ import pages
 
 
 # get links for each cuisine's homepage
-cuisine_page_links_list = pages.cuisines.get_cuisine_page_links()
+cuisine_pages = pages.cuisines.get_cuisine_page_links()
 
-for cuisine_page_link in cuisine_page_links_list:
+for cuisine_name in cuisine_pages:
+    cuisine_link = cuisine_pages[cuisine_name]
     # get links for each recipe's page of this cuisine
-    cuisine_recipes_links_list = pages.recipes.get_recipe_page_links(cuisine_page_link)
+    cuisine_recipes_links_list = pages.recipes.get_recipe_page_links(cuisine_link)
 
     for recipe_link in cuisine_recipes_links_list:
         # try to extract ingredients from a recipe
         try:
-            recipe = pages.recipe.parse_recipe(recipe_link, "cuisine", "link")
+            recipe = pages.recipe.parse_recipe(recipe_link, cuisine_name, "link")
             print(recipe, "\n")
         # if parsing is unsuccessfull, discard recipe
         except Exception as e:
