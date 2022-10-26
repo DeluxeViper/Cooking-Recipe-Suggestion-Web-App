@@ -15,7 +15,7 @@ def parse_recipe(url: str, cuisine: str, img_link: str):
 
     name = get_name(soup_page)
     description = get_description(soup_page)
-    ingredients = get_ingredients(soup_page)
+    ingredients_raw, ingredients_parsed = get_ingredients(soup_page)
     steps = get_cooking_steps(soup_page)
     details = get_details(soup_page)
 
@@ -24,8 +24,10 @@ def parse_recipe(url: str, cuisine: str, img_link: str):
         "description": description,
         "cuisine": cuisine,
         "img": img_link,
-        "ingredients": ingredients,
+        "ingredients_raw": ingredients_raw,
+        "ingredients_parsed": ingredients_parsed,
         "steps": steps,
         "details": details,
     }
+
     return recipe

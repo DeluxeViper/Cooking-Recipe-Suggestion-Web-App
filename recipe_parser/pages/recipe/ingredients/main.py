@@ -7,8 +7,9 @@ from parse_ingredients import parse_ingredient
 from bs4 import BeautifulSoup
 
 
-def get_ingredients(soup_page: BeautifulSoup) -> dict:
-    structured_ingredients = {}
+def get_ingredients(soup_page: BeautifulSoup) -> tuple[list, list]:
+    ingredients_raw = []
+    ingredients_parsed = set()
     ingredients_list = soup_page.findAll(
         "li", {"class": "mntl-structured-ingredients__list-item"}
     )
@@ -16,12 +17,13 @@ def get_ingredients(soup_page: BeautifulSoup) -> dict:
         ingredient_raw_text = ingredient_el.get_text()
         ingredient_text = format_ingredient(ingredient_raw_text)
         ingredient = extract_ingredient(ingredient_text)
-        if ingredient in structured_ingredients:
-            structured_ingredients[ingredient].append(ingredient_text)
-        else:
-            structured_ingredients[ingredient] = [ingredient_text]
 
-    return structured_ingredients
+        ingredients_raw.append(ingredient_text)
+        if ingredient == "ERRPARSING":
+            continue
+        ingredients_parsed.add(ingredient)
+
+    return ingredients_raw, list(ingredients_parsed)
 
 
 def format_ingredient(ingredient: str) -> str:

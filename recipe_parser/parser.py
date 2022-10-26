@@ -1,9 +1,9 @@
+import json
 import pages
 
 
-# * just a script to test whats possible right now, not final by any means
-# * nor does it follow ANY best practices
-
+recipes = []
+ingredients = set()
 
 # get links for each cuisine's homepage
 cuisine_pages = pages.cuisines.get_cuisine_page_links()
@@ -21,13 +21,18 @@ for cuisine_name in cuisine_pages:
                 cuisine=cuisine_name,
                 img_link=cuisine_recipes_links[recipe_link],
             )
-            print(recipe, "\n")
+            recipes.append(recipe)
+            ingredients.update(recipe["ingredients_parsed"])
         # if parsing is unsuccessfull, discard recipe
         except Exception as e:
             continue
 
+json_recipes = json.dumps(recipes)
+fr = open("recipes.json", "w")
+fr.write(json_recipes)
+fr.close()
 
-# print("N of recipes attempted: ", att_counter)  # 2100 +-
-# print("N of recipes parsed: ", counter)  # 1500 +-
-# print("N of ingredients attempted: ", ing_counter)  # 15000 +- attempted
-# # * reduced to approx. 2100 ingredients stored
+json_ingredients = json.dumps(list(ingredients))
+fi = open("ingredients.json", "w")
+fi.write(json_ingredients)
+fi.close()
