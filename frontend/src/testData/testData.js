@@ -66,5 +66,30 @@ let testRecipeItems = [
         ]
     }
   ]
-
-  export { testRecipeItems, recipeAndIngredientsList }
+  let testIngredientsList = [
+    {
+        ingredientName: "Rice",
+        ingredientImageLink:"https://encycolorpedia.com/emojis/cooked-rice.svg",
+    },
+    {
+      ingredientName: "Lettuce",
+      ingredientImageLink:"https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png",
+    },
+    {
+      ingredientName: "Beef",
+      ingredientImageLink:"https://encycolorpedia.com/emojis/cut-of-meat.svg",
+    },
+    {
+      ingredientName: "Cheese",
+      ingredientImageLink:"https://encycolorpedia.com/emojis/cheese-wedge.svg",
+    },
+    {
+      ingredientName: "Bread",
+      ingredientImageLink:"https://encycolorpedia.com/emojis/bread.svg",
+    },
+    {
+      ingredientName: "Potato",
+      ingredientImageLink:"https://encycolorpedia.com/emojis/potato.svg",
+    }
+  ]
+  export { testRecipeItems, recipeAndIngredientsList,testIngredientsList }
