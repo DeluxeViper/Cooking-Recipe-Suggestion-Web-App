@@ -1,13 +1,7 @@
-import { Avatar, Card, CardHeader, Divider, List, ListItem, ListItemText, Typography,CardMedia } from "@material-ui/core";
-import { AccessTimeFilled, IosShare, Print, Restaurant } from '@mui/icons-material';
-import { makeStyles } from '@material-ui/core/styles';
-import { Image } from 'mui-image'
+import { Card, Typography, CardMedia } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import {testIngredientsList} from "../testData/testData";
-import RecipeCardList from "../components/RecipeCardList";
-import IngredientSectionList from "../components/IngredientSectionList";
-import StrikeThroughText from "../components/StrikeThroughText";
-
+import SearchField from "../components/SearchField";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -16,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
   },
   recipeHeader: {
-    display: `flex`
+    display: `flex`,
   },
   sectionMargin: {
     margin: "80px",
@@ -33,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   recipePhoto: {
     borderRadius: "15px",
-    width: "55%"
+    width: "55%",
   },
   recipeMacros: {
     width: "35%",
@@ -66,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     width: "60%",
   },
   otherRecipesSection: {
-    width: "30%"
+    width: "30%",
   },
   ingredientsContainer: {
     display: "flex",
@@ -79,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   otherRecipesItemDescription: {
     width: "40%",
     paddingLeft: "24px",
-    paddingRight: "24px"
+    paddingRight: "24px",
   },
   otherRecipesItemPhoto: {
     width: "60%",
@@ -90,17 +84,17 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "32px",
   },
   otherRecipesCardItem: {
-    marginBottom: "24px"
+    marginBottom: "24px",
   },
   suggestionsSection: {
-    textAlign: "center"
+    textAlign: "center",
   },
   recipeButtonItem: {
     paddingLeft: "32px",
     paddingRight: "32px",
   },
   headerSpacing: {
-    display:"flex",
+    display: "flex",
     justifyContent: "space-between",
   },
   ingredientCard: {
@@ -116,192 +110,217 @@ const useStyles = makeStyles((theme) => ({
   section: {
     marginBottom: "150px",
     textAlign: "center",
-  }
-
+  },
 }));
 
 const Ingredients = () => {
   const classes = useStyles();
   return (
     <div>
-    <div className={classes.sectionMargin}>
-      <Typography variant="h1">Ingredients</Typography>
-      <div className={classes.headerSpacing}>
-        
-      </div>
-      
-    </div>
-      
+      <SearchField />
       <div className={classes.sectionMargin}>
-        <Typography variant="subtitle1">Every good recipe starts with good ingredients!</Typography>
+        <Typography variant="h1">Ingredients</Typography>
+        <div className={classes.headerSpacing}></div>
       </div>
-      
+
+      <div className={classes.sectionMargin}>
+        <Typography variant="subtitle1">
+          Every good recipe starts with good ingredients!
+        </Typography>
+      </div>
+
       <div className={classes.section}>
-               
         <div className={classes.ingredientsCarousel}>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cooked-rice.svg"
-
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cooked-rice.svg"
             />
-            <Typography variant="h4" align="center">Rice</Typography>
+            <Typography variant="h4" align="center">
+              Rice
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png"
             />
-            <Typography variant="h4" align="center">Lettuce</Typography>
+            <Typography variant="h4" align="center">
+              Lettuce
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cut-of-meat.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cut-of-meat.svg"
             />
-            <Typography variant="h4" align="center">Beef</Typography>
+            <Typography variant="h4" align="center">
+              Beef
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cheese-wedge.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cheese-wedge.svg"
             />
-            <Typography variant="h4" align="center">Cheese</Typography>
+            <Typography variant="h4" align="center">
+              Cheese
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/bread.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/bread.svg"
             />
-            <Typography variant="h4" align="center">Bread</Typography>
+            <Typography variant="h4" align="center">
+              Bread
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/potato.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/potato.svg"
             />
-            <Typography variant="h4" align="center">Potato</Typography>
+            <Typography variant="h4" align="center">
+              Potato
+            </Typography>
           </Card>
-          
         </div>
       </div>
       <div className={classes.section}>
-               
         <div className={classes.ingredientsCarousel}>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cooked-rice.svg"
-
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cooked-rice.svg"
             />
-            <Typography variant="h4" align="center">Rice</Typography>
+            <Typography variant="h4" align="center">
+              Rice
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png"
             />
-            <Typography variant="h4" align="center">Lettuce</Typography>
+            <Typography variant="h4" align="center">
+              Lettuce
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cut-of-meat.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cut-of-meat.svg"
             />
-            <Typography variant="h4" align="center">Beef</Typography>
+            <Typography variant="h4" align="center">
+              Beef
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cheese-wedge.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cheese-wedge.svg"
             />
-            <Typography variant="h4" align="center">Cheese</Typography>
+            <Typography variant="h4" align="center">
+              Cheese
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/bread.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/bread.svg"
             />
-            <Typography variant="h4" align="center">Bread</Typography>
+            <Typography variant="h4" align="center">
+              Bread
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/potato.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/potato.svg"
             />
-            <Typography variant="h4" align="center">Potato</Typography>
+            <Typography variant="h4" align="center">
+              Potato
+            </Typography>
           </Card>
-          
         </div>
       </div>
       <div className={classes.section}>
-               
         <div className={classes.ingredientsCarousel}>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cooked-rice.svg"
-
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cooked-rice.svg"
             />
-            <Typography variant="h4" align="center">Rice</Typography>
+            <Typography variant="h4" align="center">
+              Rice
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://emojiguide.org/images/emoji/q/1ho9vysgl820q.png"
             />
-            <Typography variant="h4" align="center">Lettuce</Typography>
+            <Typography variant="h4" align="center">
+              Lettuce
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cut-of-meat.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cut-of-meat.svg"
             />
-            <Typography variant="h4" align="center">Beef</Typography>
+            <Typography variant="h4" align="center">
+              Beef
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cheese-wedge.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/cheese-wedge.svg"
             />
-            <Typography variant="h4" align="center">Cheese</Typography>
+            <Typography variant="h4" align="center">
+              Cheese
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/bread.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/bread.svg"
             />
-            <Typography variant="h4" align="center">Bread</Typography>
+            <Typography variant="h4" align="center">
+              Bread
+            </Typography>
           </Card>
           <Card className={classes.ingredientCard}>
             <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/potato.svg"
+              style={{ marginBottom: "30px" }}
+              component="img"
+              image="https://encycolorpedia.com/emojis/potato.svg"
             />
-            <Typography variant="h4" align="center">Potato</Typography>
+            <Typography variant="h4" align="center">
+              Potato
+            </Typography>
           </Card>
-          
         </div>
       </div>
-      
     </div>
   );
 };
