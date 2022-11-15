@@ -86,26 +86,33 @@ module.exports = function (
         });
     });
 
-    // recipeModel.bulkCreate(bulkRecipes, {
-    //     ignoreDuplicates: true
-    // })
-    // .then(() => {
-    //     console.log(`Inserted/updated ${bulkRecipes.length} recipes`);
-    // })
+    recipeModel
+        .bulkCreate(bulkRecipes, {
+            ignoreDuplicates: true,
+        })
+        .then(() => {
+            console.log(`Inserted/updated ${bulkRecipes.length} recipes`);
+        });
 
-    // recipeStepModel.bulkCreate(bulkRecipeSteps, {
-    //     ignoreDuplicates: true
-    // })
-    // .then(() => {
-    //     console.log(`Inserted/updated ${bulkRecipeSteps.length} recipe steps`);
-    // })
+    recipeStepModel
+        .bulkCreate(bulkRecipeSteps, {
+            ignoreDuplicates: true,
+        })
+        .then(() => {
+            console.log(
+                `Inserted/updated ${bulkRecipeSteps.length} recipe steps`
+            );
+        });
 
-    // recipeIngredientModel.bulkCreate(bulkRecipeIngredientStr, {
-    //     ignoreDuplicates: true
-    // })
-    // .then(() => {
-    //     console.log(`Inserted/updated ${bulkRecipes.length} recipe ingredients`);
-    // })
+    recipeIngredientModel
+        .bulkCreate(bulkRecipeIngredientStr, {
+            ignoreDuplicates: true,
+        })
+        .then(() => {
+            console.log(
+                `Inserted/updated ${bulkRecipes.length} recipe ingredients`
+            );
+        });
 
     recipeIngredientIndexModel
         .bulkCreate(bulkRecipeIngredientIndex, {
