@@ -1,14 +1,8 @@
 import React from "react";
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import IngredientCard from "./IngredientCard";
 import PropTypes from "prop-types";
-import {
-  GridContextProvider,
-  GridDropZone,
-  GridItem,
-  swap,
-  move,
-} from "react-grid-dnd";
+
 const useStyles = makeStyles((theme) => ({
   grid: {
     display: "flex",
@@ -39,7 +33,7 @@ const IngredientsList = (props) => {
                 props.filter === undefined ? "" : props.filter.toLowerCase()
               )
           )
-          .map((ingr, index) => {
+          .map((ingr) => {
             return (
               <IngredientCard
                 handleClick={props.handleCardClick}
@@ -54,38 +48,6 @@ const IngredientsList = (props) => {
       {}
     </div>
   );
-  //   return (
-  //     <div className={classes.grid2}>
-  //       <GridDropZone
-  //         boxesPerRow={5}
-  //         rowHeight={200}
-  //         rowGap={50}
-  //         id={props.listId ? props.listId : undefined}
-  //       >
-  //         {props.ingredients ? (
-  //           props.ingredients
-  //             .filter((ingr) =>
-  //               ingr.ingredientName
-  //                 .toLowerCase()
-  //                 .includes(
-  //                   props.filter === undefined ? "" : props.filter.toLowerCase()
-  //                 )
-  //             )
-  //             .map((ingr, index) => (
-  //               <GridItem key={ingr.ingrName}>
-  //                 <IngredientCard
-  //                   handleClick={props.handleCardClick}
-  //                   ingrName={ingr.ingredientName}
-  //                   ingrImage={ingr.ingredientImageLink}
-  //                 />
-  //               </GridItem>
-  //             ))
-  //         ) : (
-  //           <Typography variant="p">Uh oh. No ingredients found.</Typography>
-  //         )}
-  //       </GridDropZone>
-  //     </div>
-  //   );
 };
 
 IngredientsList.propTypes = {
