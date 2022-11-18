@@ -1,12 +1,26 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import { testIngredientsList } from "../../testData/testData";
 import IngredientCard from "./IngredientCard";
 import PropTypes from "prop-types";
 
+const useStyles = makeStyles((theme) => ({
+  grid: {
+    display: "flex",
+    flexWrap: "wrap",
+    padding: 20,
+    rowGap: "10px",
+    gap: "20px",
+    width: "100%",
+    "@media (min-width: 1500px)": {
+      width: "100%",
+    },
+  },
+}));
 const IngredientsList = (props) => {
+  const classes = useStyles();
   return (
-    <Grid container spacing={8} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+    <div className={classes.grid}>
       {testIngredientsList
         .filter((ingr) =>
           ingr.ingredientName
@@ -17,15 +31,13 @@ const IngredientsList = (props) => {
         )
         .map((ingr, index) => {
           return (
-            <Grid item xs={12} key={index}>
-              <IngredientCard
-                ingrName={ingr.ingredientName}
-                ingrImage={ingr.ingredientImageLink}
-              />
-            </Grid>
+            <IngredientCard
+              ingrName={ingr.ingredientName}
+              ingrImage={ingr.ingredientImageLink}
+            />
           );
         })}
-    </Grid>
+    </div>
   );
 };
 

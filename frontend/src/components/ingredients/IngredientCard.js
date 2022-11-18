@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
   ingredientCard: {
     height: "100%",
     width: "10%",
+    minWidth: "150px",
     padding: "16px",
     borderRadius: "10%",
   },
