@@ -14,6 +14,15 @@ const useStyles = makeStyles((theme) => ({
     width: "50%",
     margin: "0 50px 0 50px",
   },
+  cardMedia: {
+    userDrag: "none",
+    "-webkit-user-drag": "none",
+    "user-select": "none",
+    "-moz-user-select": "none",
+    "-webkit-user-select": "none",
+    "-ms-user-select": "none",
+    marginBottom: "30px",
+  },
 }));
 
 const IngredientCard = (props) => {
@@ -22,9 +31,13 @@ const IngredientCard = (props) => {
   const ingrImage = props.ingrImage;
 
   return (
-    <Card className={classes.ingredientCard}>
+    <Card
+      className={classes.ingredientCard}
+      onClick={(e) => props.handleClick(e, ingrName, ingrImage)}
+      id={ingrName}
+    >
       <CardMedia
-        style={{ marginBottom: "30px" }}
+        className={classes.cardMedia}
         component="img"
         image={ingrImage}
       />
@@ -39,4 +52,5 @@ export default IngredientCard;
 IngredientCard.propTypes = {
   ingrName: PropTypes.string,
   ingrImage: PropTypes.string,
+  handleClick: PropTypes.any,
 };
