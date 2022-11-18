@@ -15,13 +15,12 @@ import Recipes from "./pages/Recipes";
 const App = () => {
   return (
     <Router>
+      <Navbar />
       <div>
-        <Navbar />
-
         <Outlet />
-
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
+        <div style={{ height: "80px" }} />
         <Routes>
           <Route path="/ingredients" element={<Ingredients />}></Route>
           <Route path="/recipes" element={<Recipes />}></Route>
