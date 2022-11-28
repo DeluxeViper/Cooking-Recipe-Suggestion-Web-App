@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
       }
 }));
 
-function RecipeCard(props) {
+const RecipeCard = (props) => {
     const classes = useStyles();
     let {recipeCardItem} = props
     return (<Card className={classes.recipeCard}>

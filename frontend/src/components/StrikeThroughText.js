@@ -20,7 +20,7 @@ StrikeThroughText.propTypes = {
     variant: PropTypes.string,
 }
 
-function StrikeThroughText(props) {
+const StrikeThroughText = (props) => {
     let [strikeThrough, setStrikeThrough] = useState(false);
     let {text, variant} = props;
     let classes = useStyles();

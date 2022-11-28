@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function IngredientSectionList(props) {
+const IngredientSectionList = (props) => {
     let classes = useStyles();
     let {recipeAndIngredientsList} = props;
     return (

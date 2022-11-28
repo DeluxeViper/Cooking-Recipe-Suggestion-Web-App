@@ -13,7 +13,7 @@ IngredientSection.propTypes = {
     })
 }
 
-function IngredientSection(props) {
+const IngredientSection = (props) => {
     let {recipeName, ingredientList} = props.recipeAndIngredients;
     return (
         <div>
