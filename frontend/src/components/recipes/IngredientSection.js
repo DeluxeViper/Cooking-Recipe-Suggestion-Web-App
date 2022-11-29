@@ -3,19 +3,22 @@ import PropTypes from "prop-types";
 import { Divider, Typography } from "@material-ui/core";
 import StrikeThroughText from "../StrikeThroughText";
 
-IngredientSection.propTypes = {
-  //refactor when ingredientItem has ID
-  recipeAndIngredients: PropTypes.shape({
-    recipeName: PropTypes.string,
-    ingredientList: PropTypes.arrayOf(
-      PropTypes.shape({
-        ingredientName: PropTypes.string,
-      })
-    ),
-  }),
-};
 
-function IngredientSection(props) {
+
+const IngredientSection = (props) => {
+
+  IngredientSection.propTypes = {
+    //refactor when ingredientItem has ID
+    recipeAndIngredients: PropTypes.shape({
+      recipeName: PropTypes.string,
+      ingredientList: PropTypes.arrayOf(
+        PropTypes.shape({
+          ingredientName: PropTypes.string,
+        })
+      ),
+    }),
+  };
+
   let { recipeName, ingredientList } = props.recipeAndIngredients;
   return (
     <div>
