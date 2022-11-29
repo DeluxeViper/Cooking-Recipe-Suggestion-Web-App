@@ -42,11 +42,11 @@ const DirectionSectionList = (props) => {
                 return (
                     <div key={index} className={classes.directionItem}>
                     <div className={classes.directionsChecklistItem}>
-                        <StrikeThroughText variant={"h5"} text={directionItem.OrderOfStep}/>
+                        <StrikeThroughText variant={"h6"} text={`${directionItem.OrderOfStep}.   ${directionItem.StepInfo}`}/>
                     </div>
-                    <div className={classes.directionsDescription}>
-                        <Typography variant="body1">{directionItem.StepInfo}</Typography>
-                    </div>
+                    {/* <div className={classes.directionsDescription}>
+                        <Typography variant="body1"></Typography>
+                    </div> */}
                     <Divider/>
                     </div>
                 )

@@ -3,6 +3,7 @@ import {React} from "react";
 import PropTypes from 'prop-types';    
 import { Link } from "react-router-dom";
 
+
 const useStyles = makeStyles((theme) => ({
     recipeCard: {
         width: "400px",
@@ -37,6 +38,16 @@ const useStyles = makeStyles((theme) => ({
 
 const recipeLink = "/recipes";
 
+const RecipeCard = (props) => {
+  RecipeCard.propTypes = {
+    //refactor when recipeCardItem has ID
+    recipeCardItem: PropTypes.shape({
+        recipeName: PropTypes.string,
+        timeLabel: PropTypes.string,
+        recipeType: PropTypes.string,
+        recipeImageLink: PropTypes.string
+    })
+}
 const RecipeCard = (props) => {
   RecipeCard.propTypes = {
     //refactor when recipeCardItem has ID

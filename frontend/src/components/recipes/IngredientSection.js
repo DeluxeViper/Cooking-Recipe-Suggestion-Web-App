@@ -13,10 +13,12 @@ const IngredientSection = (props) => {
       recipeName: PropTypes.string,
       ingredientList: PropTypes.arrayOf(
         PropTypes.shape({
-          ingredientName: PropTypes.string,
+          RecipeIngredientID: PropTypes.string,
+          RawIngredient: PropTypes.string,
+          RecipeID: PropTypes.string,
         })
       ),
-    }),
+    })
   };
 
   let { recipeName, ingredientList } = props.recipeAndIngredients;
