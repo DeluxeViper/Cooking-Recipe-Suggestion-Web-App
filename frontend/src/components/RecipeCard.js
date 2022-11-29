@@ -2,16 +2,6 @@ import { Button, Card, CardActions, CardContent, CardMedia, Chip, makeStyles, Ty
 import {React} from "react";
 import PropTypes from 'prop-types';    
 
-RecipeCard.propTypes = {
-    //refactor when recipeCardItem has ID
-    recipeCardItem: PropTypes.shape({
-        recipeName: PropTypes.string,
-        timeLabel: PropTypes.string,
-        recipeType: PropTypes.string,
-        recipeImageLink: PropTypes.string
-    })
-}
-
 const useStyles = makeStyles((theme) => ({
     recipeCard: {
         width: "400px",
@@ -40,7 +30,16 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function RecipeCard(props) {
+const RecipeCard = (props) => {
+  RecipeCard.propTypes = {
+    //refactor when recipeCardItem has ID
+    recipeCardItem: PropTypes.shape({
+        recipeName: PropTypes.string,
+        timeLabel: PropTypes.string,
+        recipeType: PropTypes.string,
+        recipeImageLink: PropTypes.string
+    })
+}
     const classes = useStyles();
     let {recipeCardItem} = props
     return (
