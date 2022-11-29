@@ -1,6 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Chip, makeStyles, Typography } from "@material-ui/core";
 import {React} from "react";
 import PropTypes from 'prop-types';    
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     recipeCard: {
@@ -27,8 +28,14 @@ const useStyles = makeStyles((theme) => ({
     viewRecipeButton: {
       width: "100%"
     },
+    viewRecipeLink: {
+      textDecoration: "none",
+      width: "100%",
+    }
 
 }));
+
+const recipeLink = "/recipes";
 
 const RecipeCard = (props) => {
   RecipeCard.propTypes = {
@@ -60,7 +67,9 @@ const RecipeCard = (props) => {
             <Chip label={`🍴 ${recipeCardItem.Cuisine}`} />
           </CardActions>
           <CardActions>
-              <Button className={classes.viewRecipeButton} variant="outlined" size="medium">View Recipe</Button>
+              <Link className={classes.viewRecipeLink} to={`${recipeLink}/${recipeCardItem.RecipeID}`}>
+                <Button className={classes.viewRecipeButton} variant="outlined" size="medium">View Recipe</Button>
+              </Link>
           </CardActions>
         </CardContent>
       </Card>
