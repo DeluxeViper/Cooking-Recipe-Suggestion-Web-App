@@ -2,11 +2,12 @@ import { Avatar, Card, CardHeader, Divider, List, ListItem, ListItemText, Typogr
 import { AccessTimeFilled, IosShare, Print, Restaurant } from '@mui/icons-material';
 import { makeStyles } from '@material-ui/core/styles';
 import { Image } from 'mui-image'
-import React from "react";
+import {React, useEffect, useState} from "react";
 import { recipeAndIngredientsList, testRecipeItems } from "../testData/testData";
 import RecipeCardList from "../components/RecipeCardList";
 import IngredientSectionList from "../components/IngredientSectionList";
 import StrikeThroughText from "../components/StrikeThroughText";
+import { getRecipesById, getRecipesByPage } from "../services/dataService";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -106,7 +107,21 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Recipes = () => {
+const Recipes = (props) => {
+//   Recipes.propTypes = {
+//     //refactor when ingredientItem has ID
+//     recipeId: PropTypes.string
+// }
+const [recipeData, setRecipeData] = useState({});
+  useEffect(() => {
+    // getRecipesById(recipeId).then((data) => {
+      getRecipesById('amish-friendship-banana-nut-bread').then((data) => {
+      setRecipeData(data);
+      console.log(data);
+    })
+    console.log('yerr');
+    console.log(recipeData);
+  }, [])
   const classes = useStyles();
   return (
     <div>

@@ -1,19 +1,32 @@
-const API_ENDPOINT = "localhost:3000"
+const getRecipesEndpoint = 'recipes'
 
-const createEndpointURL = (object) => {
-    return new URL(object, API_ENDPOINT)
-}
-const getRecipes = () => {
-    const getRecipesEndpoint = createEndpointURL('recipes');
-    fetch(getRecipesEndpoint, GET)
-    .then((response) => response.json())
-    .then((data) => {
-       console.log(data);
-       return Promise.resolve(data);
+const getRecipesByPage = (page) => {
+    return new Promise((resolve, reject) => {
+        fetch(getRecipesEndpoint +'?'+ new URLSearchParams({
+            page: page}))
+        .then((response) => response.json())
+        .then((data) => {
+           console.log(data);
+           resolve(data);
+        })
+        .catch((error) => {
+            reject(error);
+        });
     })
-    .catch((err) => {
-       console.log(err.message);
-    });
 }
 
-export {getRecipes}
+const getRecipesById = (id) => {
+    return new Promise((resolve, reject) => {
+        fetch(getRecipesEndpoint + '/' + id)
+        .then((response) => response.json())
+        .then((data) => {
+           console.log(data);
+           resolve(data);
+        })
+        .catch((error) => {
+            reject(error);
+        });
+    })
+}
+
+export {getRecipesByPage, getRecipesById}

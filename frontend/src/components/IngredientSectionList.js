@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles, Typography } from "@material-ui/core";
 import IngredientSection from "./IngredientSection";
 
-IngredientSectionList.propTypes = {
-    //refactor when ingredientItem has ID
-    recipeAndIngredientsList: PropTypes.arrayOf(PropTypes.shape({
-        recipeName: PropTypes.string,
-        ingredientList: PropTypes.arrayOf(PropTypes.shape({
-            ingredientName: PropTypes.string
-        }))
-    }))
-}
+
 
 const useStyles = makeStyles((theme) => ({
     ingredientsSection: {
@@ -30,6 +22,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const IngredientSectionList = (props) => {
+    IngredientSectionList.propTypes = {
+        //refactor when ingredientItem has ID
+        recipeAndIngredientsList: PropTypes.arrayOf(PropTypes.shape({
+            recipeName: PropTypes.string,
+            ingredientList: PropTypes.arrayOf(PropTypes.shape({
+                ingredientName: PropTypes.string
+            }))
+        }))
+    }
     let classes = useStyles();
     let {recipeAndIngredientsList} = props;
     return (
