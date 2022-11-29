@@ -6,11 +6,10 @@ import {React, useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import { recipeAndIngredientsList, testRecipeItems } from "../testData/testData";
 import RecipeCardList from "../components/RecipeCardList";
-import IngredientSectionList from "../components/IngredientSectionList";
+import IngredientSectionList from "../components/recipes/IngredientSectionList";
 import StrikeThroughText from "../components/StrikeThroughText";
 import { getRecipesById, getRecipesByPage } from "../services/dataService";
 import DirectionSectionList from "../components/DirectionsSectionList";
-
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.info.main,
   },
   recipeHeader: {
-    display: `flex`
+    display: `flex`,
   },
   sectionMargin: {
     margin: "80px",
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   recipePhoto: {
     borderRadius: "15px",
-    width: "55%"
+    width: "55%",
   },
   recipeMacros: {
     width: "35%",
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "32px",
   },
   otherRecipesSection: {
-    width: "30%"
+    width: "30%",
   },
   ingredientsContainer: {
     display: "flex",
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   otherRecipesItemDescription: {
     width: "40%",
     paddingLeft: "24px",
-    paddingRight: "24px"
+    paddingRight: "24px",
   },
   otherRecipesItemPhoto: {
     width: "60%",
@@ -77,20 +76,19 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "32px",
   },
   otherRecipesCardItem: {
-    marginBottom: "24px"
+    marginBottom: "24px",
   },
   suggestionsSection: {
-    textAlign: "center"
+    textAlign: "center",
   },
   recipeButtonItem: {
     paddingLeft: "32px",
     paddingRight: "32px",
   },
   headerSpacing: {
-    display:"flex",
+    display: "flex",
     justifyContent: "space-between",
-  }
-
+  },
 }));
 
 const Recipes = () => {
@@ -160,20 +158,19 @@ const [isLoading, setIsLoading] = useState(true);
         <div className ={classes.recipeButtons}>
             <div className={classes.recipeButtonItem}>
               <Avatar>
-                <Print/>
+                <Print />
               </Avatar>
               <Typography>Print</Typography>
             </div>
             <div className={classes.recipeButtonItem}>
               <Avatar>
-                <IosShare/>
+                <IosShare />
               </Avatar>
               <Typography>Share</Typography>
             </div>
           </div>
+        </div>
       </div>
-      
-    </div>
       <div className={`${classes.imageSection} ${classes.sectionMargin}`}>
         <div className={classes.recipePhoto}>
           <Image src={recipeData.ImgLink}></Image>
@@ -226,42 +223,48 @@ const [isLoading, setIsLoading] = useState(true);
       <div className={classes.sectionMargin}>
         <Typography variant="subtitle1">{recipeData.Description}</Typography>
       </div>
-      <div className={`${classes.sectionMargin} ${classes.ingredientsContainer}`}>
-        <IngredientSectionList recipeAndIngredientsList={recipeAndIngredientsList}/>
+      <div
+        className={`${classes.sectionMargin} ${classes.ingredientsContainer}`}
+      >
+        <IngredientSectionList
+          recipeAndIngredientsList={recipeAndIngredientsList}
+        />
         <div className={classes.otherRecipesSection}>
-          <Typography variant="h4" className={classes.otherRecipesHeader}>Other Recipes</Typography>
+          <Typography variant="h4" className={classes.otherRecipesHeader}>
+            Other Recipes
+          </Typography>
           <Card className={classes.otherRecipesCardItem}>
             <div className={classes.otherRecipesItem}>
               <div className={classes.otherRecipesItemPhoto}>
               <Image src={recipeData.ImgLink} ></Image>
               </div>
               <div className={classes.otherRecipesItemDescription}>
-              <Typography variant="h5">Meatballs and Pasta</Typography>
-              <Typography variant="caption">By John Smith</Typography>
+                <Typography variant="h5">Meatballs and Pasta</Typography>
+                <Typography variant="caption">By John Smith</Typography>
               </div>
-            </div> 
+            </div>
           </Card>
           <Card className={classes.otherRecipesCardItem}>
-          <div className={classes.otherRecipesItem}>
-            <div className={classes.otherRecipesItemPhoto}>
-            <Image src="https://hips.hearstapps.com/hmg-prod/images/190409-mexican-corn-on-the-cob-horizontal-1-1555623819.png" ></Image>
+            <div className={classes.otherRecipesItem}>
+              <div className={classes.otherRecipesItemPhoto}>
+                <Image src="https://hips.hearstapps.com/hmg-prod/images/190409-mexican-corn-on-the-cob-horizontal-1-1555623819.png"></Image>
+              </div>
+              <div className={classes.otherRecipesItemDescription}>
+                <Typography variant="h5">Mexican Street Corn</Typography>
+                <Typography variant="caption">By Felipe D</Typography>
+              </div>
             </div>
-            <div className={classes.otherRecipesItemDescription}>
-            <Typography variant="h5">Mexican Street Corn</Typography>
-            <Typography variant="caption">By Felipe D</Typography>
-            </div>
-          </div> 
           </Card>
           <Card className={classes.otherRecipesCardItem}>
-          <div className={classes.otherRecipesItem}>
-            <div className={classes.otherRecipesItemPhoto}>
-            <Image src="https://cdn.tasteatlas.com/Images/Dishes/5eb9df1828d84079a850ebe462e28121.jpg" ></Image>
+            <div className={classes.otherRecipesItem}>
+              <div className={classes.otherRecipesItemPhoto}>
+                <Image src="https://cdn.tasteatlas.com/Images/Dishes/5eb9df1828d84079a850ebe462e28121.jpg"></Image>
+              </div>
+              <div className={classes.otherRecipesItemDescription}>
+                <Typography variant="h5">Lechon</Typography>
+                <Typography variant="caption">By Melchizideck C</Typography>
+              </div>
             </div>
-            <div className={classes.otherRecipesItemDescription}>
-            <Typography variant="h5">Lechon</Typography>
-            <Typography variant="caption">By Melchizideck C</Typography>
-            </div>
-          </div> 
           </Card>
         </div>
       </div>
@@ -274,7 +277,7 @@ const [isLoading, setIsLoading] = useState(true);
           <Typography variant="h4">You may also like</Typography>
         </div>
         <div>
-          <RecipeCardList recipeCardList={testRecipeItems}/>
+          <RecipeCardList recipeCardList={testRecipeItems} />
         </div>
       </div>
     </div>

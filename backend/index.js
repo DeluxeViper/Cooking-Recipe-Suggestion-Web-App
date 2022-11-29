@@ -15,15 +15,17 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const { body, validationResult } = require("express-validator");
 const { v4: uuidv4 } = require("uuid");
+const redis = require("redis");
 const app = express();
 const port = 3000;
 const { Sequelize, Op } = require("sequelize");
 const initModels = require("./model/init-models");
-// const importRecipes = require('./util/importRecipes')
-// const importIngredients = require('./util/importIngredients')
+const getPrimaryKey = require("./util/getPrimaryKey");
 
 const SEARCH_BY_INGREDIENTS_1 =
   require("./db/queries").SEARCH_BY_RECIPE_NOT_LIMITED;
+
+const CACHE_TTL = 86400; // Seconds for cache entries to expire
 
 /**
  * Test data
@@ -128,6 +130,24 @@ function sendError(res, msg) {
   });
 }
 
+function getCacheKey(name, params, query, n) {
+  if (!name) return null;
+
+  let key = getPrimaryKey(name);
+  if (params) key += "-" + getPrimaryKey(params);
+  if (query) key += "-" + getPrimaryKey(query);
+  if (n) key += "-" + getPrimaryKey(n);
+
+  return key;
+}
+
+async function setCacheEntry(key, value) {
+  if (redisClientReady) {
+    await redisClient.set(key, value);
+    await redisClient.expire(key, CACHE_TTL);
+  }
+}
+
 /**
  * Middleware
  */
@@ -138,6 +158,27 @@ app.use(
 app.use(bodyParser.json());
 
 /**
+ * Cache
+ */
+let redisClient;
+let redisClientReady = false;
+
+(async() => {
+  redisClient = redis.createClient();
+
+  redisClient.on("error", (e) => {
+    console.error(`error instantiating redis client ${e}. running with no cache`);
+  });
+
+  redisClient.on("connect", () => {
+    console.log("redis connection established");
+    redisClientReady = true;
+  });
+
+  await redisClient.connect();
+})();
+
+/**
  * Database Connection
  */
 const sequelize = new Sequelize(process.env.DATABASE_URL);
@@ -145,6 +186,7 @@ sequelize
   .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
+
   })
   .catch((err) => {
     console.error("Unable to connect to the database:", error);
@@ -172,28 +214,62 @@ app.get("/", (req, res) => {
  */
 app.get("/recipes/:id", async (req, res) => {
   const recipeId = req.params.id;
+  let cached = false;
+  let results;
 
   if (!recipeId) {
     return sendBadRequest(res);
   }
 
-  const recipe = await Recipe.findByPk(recipeId);
+  const cacheKey = getCacheKey("recipes", recipeId);
+  try {
+    let cacheRes;
+    if (redisClientReady) {
+      cacheRes = await redisClient.get(cacheKey);
+    }
 
-  if (recipe === null) {
-    return sendNotFound(res);
+    if (cacheRes) {
+      cached = true;
+      results = JSON.parse(cacheRes);
+    } else {
+      const recipe = await Recipe.findByPk(recipeId);
+
+      if (recipe === null) {
+        return sendNotFound(res);
+      }
+
+      // Get the steps for the recipe
+      const steps = await RecipeStep.findAll({
+        where: {
+          RecipeID: recipeId,
+        },
+      });
+
+      // Get the ingredients of the recipe
+      const ingredients = await Recipe_Ingredient.findAll({
+        where: {
+          RecipeID: recipeId,
+        },
+      });
+
+      results = {
+        recipe,
+        ingredients,
+        steps,
+      };
+
+      setCacheEntry(cacheKey, JSON.stringify(results));
+    }
+  } catch (e) {
+    return sendError(res, "Internal server error");
   }
-
-  // Get the steps for the recipe
-  const steps = await RecipeStep.findAll({
-    where: {
-      RecipeID: recipeId,
-    },
-  });
 
   return res.status(200).send({
     status: 200,
-    recipe,
-    steps,
+    "recipe": results.recipe,
+    "steps": results.steps,
+    "ingredients": results.ingredients,
+    cached,
   });
 });
 
@@ -202,6 +278,9 @@ app.get("/recipes/:id", async (req, res) => {
  */
 app.get("/search", async (req, res) => {
   let i = req.query.ingredient;
+  let cached = false;
+  let results;
+
   if (!i) {
     return sendBadRequest(res);
   }
@@ -213,16 +292,30 @@ app.get("/search", async (req, res) => {
 
   console.log(`Search for recipes with ingredients: ${i}`);
 
+  const cacheKey = getCacheKey("search", i.toString());
   try {
-    const [results, _] = await sequelize.query(SEARCH_BY_INGREDIENTS_1, {
-      replacements: [i, i.length],
-    });
+    let cacheRes;
+    if (redisClientReady) {
+      cacheRes = await redisClient.get(cacheKey);
+    }
 
-    console.log(results);
+    if (cacheRes) {
+      cached = true;
+      results = JSON.parse(cacheRes);
+    } else {
+      const [dbResults, _] = await sequelize.query(SEARCH_BY_INGREDIENTS_1, {
+        replacements: [i, i.length],
+      });
+
+      results = dbResults;
+
+      setCacheEntry(cacheKey, JSON.stringify(results));
+    }
 
     return res.status(200).send({
       status: 200,
       results: results,
+      cached,
     });
   } catch (e) {
     console.log(e);
@@ -237,6 +330,8 @@ app.get("/search", async (req, res) => {
  * If no page query is written then it will throw an error
  */
 app.get("/recipes", async (req, res) => {
+  let cached = false;
+  let results;
   const page = Number(req.query.page);
   let pageSize = Number(req.query.pageSize);
 
@@ -259,16 +354,35 @@ app.get("/recipes", async (req, res) => {
 
   const offset = page * pageSize;
 
-  const recipes = await Recipe.findAndCountAll({
-    order: [["RecipeID", "ASC"]],
-    offset,
-    limit: pageSize,
-  });
+  const cacheKey = getCacheKey("recipes-pages-get", offset.toString());
+  try {
+    let cacheRes;
+    if (redisClientReady) {
+      cacheRes = await redisClient.get(cacheKey);
+    }
+
+    if (cacheRes) {
+      cached = true;
+      results = JSON.parse(cacheRes);
+    } else {
+      results = await Recipe.findAndCountAll({
+        order: [["RecipeID", "ASC"]],
+        offset,
+        limit: pageSize,
+      });
+
+      setCacheEntry(cacheKey, JSON.stringify(results));
+    }
+  } catch (e) {
+    console.error(e);
+    return sendError(res, "Internal server error");
+  }
 
   res.send({
     page,
-    count: recipes.length,
-    data: recipes.rows,
+    count: results.length,
+    data: results.rows,
+    cached,
   });
 });
 
@@ -319,6 +433,9 @@ app.post("/recipes/add", (req, res) => {
  * Get ingredients
  */
 app.get("/ingredients/:page", async (req, res) => {
+  let cached = false;
+  let results;
+
   const page = Number(req.params.page);
 
   if (!Number.isInteger(page) || page < 0 || page > 199) {
@@ -330,16 +447,36 @@ app.get("/ingredients/:page", async (req, res) => {
 
   const offset = page * 10;
 
-  const ingredients = await Ingredient_Index.findAndCountAll({
-    order: [["IngredientString", "ASC"]],
-    offset,
-    limit: 100,
-  });
+  const cacheKey = getCacheKey("ingredients-page", page.toString(), offset.toString());
+  try {
+    let cacheRes;
+    if (redisClientReady) {
+      cacheRes = await redisClient.get(cacheKey);
+    }
+
+    if (cacheRes) {
+      cached = true;
+      results = JSON.parse(cacheRes);
+    } else {
+      results = await Ingredient_Index.findAndCountAll({
+        order: [["IngredientString", "ASC"]],
+        offset,
+        limit: 100,
+      });
+
+      setCacheEntry(cacheKey, JSON.stringify(results));
+    }
+  } catch (e) {
+    console.error(e);
+    return sendError(res, "Internal server error");
+  }
+
 
   res.send({
     page,
-    count: ingredients.length,
-    data: ingredients.rows,
+    count: results.length,
+    data: results.rows,
+    cached,
   });
 });
 
