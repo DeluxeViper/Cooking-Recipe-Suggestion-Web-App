@@ -132,12 +132,9 @@ const Recipes = () => {
 
   const classes = useStyles();
 
-  return (
-    isLoading ? <CircularProgress /> :
-
   return isLoading ? (
     <CircularProgress />
-  ) : (
+    ) : (
     <div>
       <div className={classes.sectionMargin}>
         <Typography variant="h1">{recipeData.Name}</Typography>

@@ -48,16 +48,6 @@ const RecipeCard = (props) => {
         recipeImageLink: PropTypes.string
     })
 }
-const RecipeCard = (props) => {
-  RecipeCard.propTypes = {
-    //refactor when recipeCardItem has ID
-    recipeCardItem: PropTypes.shape({
-        recipeName: PropTypes.string,
-        timeLabel: PropTypes.string,
-        recipeType: PropTypes.string,
-        recipeImageLink: PropTypes.string
-    })
-}
     const classes = useStyles();
     let {recipeCardItem} = props
     return (
@@ -74,7 +64,7 @@ const RecipeCard = (props) => {
             </Typography>
           </div>
           <CardActions className={classes.actions}>
-            <Chip label={`⏰ ${recipeCardItem.Prep}`}/>
+            <Chip label={"⏰ " + (recipeCardItem.CookTime ?? recipeCardItem.Prep) }/>
             <Chip label={`🍴 ${recipeCardItem.Cuisine}`} />
           </CardActions>
           <CardActions>
