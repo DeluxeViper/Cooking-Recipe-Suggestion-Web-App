@@ -24,7 +24,7 @@ const App = () => {
             renders the first one that matches the current URL. */}
         <Routes>
           <Route path="/ingredients" element={<Ingredients />}></Route>
-          <Route path="/recipes" element={<Recipes />}></Route>
+          <Route path="/recipes/:recipeId" element={<Recipes />}></Route>
           <Route path="/" element={<Home />}></Route>
         </Routes>
       </div>

@@ -1,13 +1,15 @@
-import { Avatar, Card, CardHeader, Divider, List, ListItem, ListItemText, Typography } from "@material-ui/core";
+import { Avatar, Card, CardHeader, CircularProgress, Divider, List, ListItem, ListItemText, Typography } from "@material-ui/core";
 import { AccessTimeFilled, IosShare, Print, Restaurant } from '@mui/icons-material';
 import { makeStyles } from '@material-ui/core/styles';
 import { Image } from 'mui-image'
 import {React, useEffect, useState} from "react";
+import { useParams } from "react-router-dom";
 import { recipeAndIngredientsList, testRecipeItems } from "../testData/testData";
 import RecipeCardList from "../components/RecipeCardList";
 import IngredientSectionList from "../components/IngredientSectionList";
 import StrikeThroughText from "../components/StrikeThroughText";
 import { getRecipesById, getRecipesByPage } from "../services/dataService";
+import DirectionSectionList from "../components/DirectionsSectionList";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,22 +52,6 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     padding: "32px",
   },
-  directionsChecklistItem: {
-    display: "flex",
-    alignItems: "center",
-  },
-  directionsDescription: {
-    padding: "24px 24px 48px 24px",
-  },
-  directionsHeader: {
-    marginBottom: "32px",
-  },
-  directionItem: {
-    marginBottom: "48px",
-  },
-  directionsSection: {
-    width: "60%",
-  },
   otherRecipesSection: {
     width: "30%"
   },
@@ -107,26 +93,29 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Recipes = (props) => {
-//   Recipes.propTypes = {
-//     //refactor when ingredientItem has ID
-//     recipeId: PropTypes.string
-// }
+const Recipes = () => {
+const params = useParams();
 const [recipeData, setRecipeData] = useState({});
-  useEffect(() => {
-    // getRecipesById(recipeId).then((data) => {
-      getRecipesById('amish-friendship-banana-nut-bread').then((data) => {
-      setRecipeData(data);
-      console.log(data);
-    })
-    console.log('yerr');
-    console.log(recipeData);
-  }, [])
+const [directionSteps, setDirectionSteps] = useState({});
+const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+      const {recipeId} = params;
+      getRecipesById(recipeId).then((data) => {
+      setRecipeData(data.recipe);
+      setDirectionSteps(data.steps);
+      setIsLoading(false);
+      console.log(directionSteps);
+      })
+    }, [params])
+
   const classes = useStyles();
+
   return (
+    isLoading ? <CircularProgress /> :
     <div>
     <div className={classes.sectionMargin}>
-      <Typography variant="h1">Title of Food</Typography>
+      <Typography variant="h1">{recipeData.Name}</Typography>
       <div className={classes.headerSpacing}>
         <div className = {classes.recipeHeader}>
           <div className={classes.authorDetails} style={{paddingLeft: "0px"}}>
@@ -144,7 +133,7 @@ const [recipeData, setRecipeData] = useState({});
                 PREP TIME
               </Typography>
               <Typography variant="caption">
-                15 MIN
+              {recipeData.Prep}
               </Typography>
             </div>
           </div>
@@ -156,7 +145,7 @@ const [recipeData, setRecipeData] = useState({});
                 COOK TIME
               </Typography>
               <Typography variant="caption">
-                15 MIN
+              {recipeData.CookTime}
               </Typography>
             </div>
           </div>
@@ -164,7 +153,7 @@ const [recipeData, setRecipeData] = useState({});
           <div className={classes.authorDetails}>
             <Restaurant style={{marginRight: "16px"}}/>
             <Typography variant="caption">
-              CHICKEN
+            {recipeData.Cuisine}
             </Typography>
           </div>
         </div>
@@ -187,7 +176,7 @@ const [recipeData, setRecipeData] = useState({});
     </div>
       <div className={`${classes.imageSection} ${classes.sectionMargin}`}>
         <div className={classes.recipePhoto}>
-          <Image src="https://img.freepik.com/free-photo/flat-lay-batch-cooking-composition_23-2148765597.jpg?w=2000"></Image>
+          <Image src={recipeData.ImgLink}></Image>
         </div>
         <div className={classes.recipeMacros}>
           <Card className={classes.recipeMacrosCard}>
@@ -197,7 +186,7 @@ const [recipeData, setRecipeData] = useState({});
                     <ListItemText primary="Calories" />
                     <span>
                     <Typography>
-                      Test
+                    {recipeData.Calories}
                     </Typography>
                     </span>
                   </ListItem>
@@ -206,7 +195,7 @@ const [recipeData, setRecipeData] = useState({});
                     <ListItemText primary="Total Fat" />
                     <span>
                     <Typography>
-                      Test
+                    {recipeData.Fat}
                     </Typography>
                     </span>
                   </ListItem>
@@ -215,7 +204,7 @@ const [recipeData, setRecipeData] = useState({});
                     <ListItemText primary="Protein" />
                     <span>
                     <Typography>
-                      Test
+                    {recipeData.Protein}
                     </Typography>
                     </span>
                   </ListItem>
@@ -224,30 +213,18 @@ const [recipeData, setRecipeData] = useState({});
                     <ListItemText primary="Carbohydrate" />
                     <span>
                     <Typography>
-                      Test
-                    </Typography>
-                    </span>
-                  </ListItem>
-                  <Divider light />
-                  <ListItem>
-                    <ListItemText primary="Cholesterol" />
-                    <span>
-                    <Typography>
-                      Test
+                    {recipeData.Carbs}
                     </Typography>
                     </span>
                   </ListItem>
               </List>
             <div>
-              <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Typography>
             </div>
           </Card>
         </div>
       </div>
       <div className={classes.sectionMargin}>
-        <Typography variant="subtitle1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+        <Typography variant="subtitle1">{recipeData.Description}</Typography>
       </div>
       <div className={`${classes.sectionMargin} ${classes.ingredientsContainer}`}>
         <IngredientSectionList recipeAndIngredientsList={recipeAndIngredientsList}/>
@@ -256,7 +233,7 @@ const [recipeData, setRecipeData] = useState({});
           <Card className={classes.otherRecipesCardItem}>
             <div className={classes.otherRecipesItem}>
               <div className={classes.otherRecipesItemPhoto}>
-              <Image src="https://images-gmi-pmc.edge-generalmills.com/a7d7f227-8d99-4ebd-b224-f5338c0f0749.jpg" ></Image>
+              <Image src={recipeData.ImgLink} ></Image>
               </div>
               <div className={classes.otherRecipesItemDescription}>
               <Typography variant="h5">Meatballs and Pasta</Typography>
@@ -289,48 +266,8 @@ const [recipeData, setRecipeData] = useState({});
         </div>
       </div>
 
-      <div className = {`${classes.sectionMargin} ${classes.directionsSection}`}>
-        <Typography variant="h4" className={classes.directionsHeader}>Directions</Typography>
-        <div className={classes.directionItem}>
-          <div className={classes.directionsChecklistItem}>
-            <StrikeThroughText variant={"h5"} text={"1. Lorem ipsum dolor sit amet"}/>
-          </div>
-          <div className={classes.directionsDescription}>
-            <Typography variant="body1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</Typography>
-          </div>
-          <Divider/>
-        </div>
-
-        <div className={classes.directionItem}>
-          <div className={classes.directionsChecklistItem}>
-            <StrikeThroughText variant={"h5"} text={"2. Lorem ipsum dolor sit amet"}/>
-          </div>
-          <div className={classes.directionsDescription}>
-            <Typography variant="body1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</Typography>
-          </div>
-          <Divider/>
-        </div>
-
-        <div className={classes.directionItem}>
-          <div className={classes.directionsChecklistItem}>
-            <StrikeThroughText variant={"h5"} text={"3. Lorem ipsum dolor sit amet"}/>
-          </div>
-          <div className={classes.directionsDescription}>
-            <Typography variant="body1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</Typography>
-          </div>
-          <Divider/>
-        </div>
-
-        <div className={classes.directionItem}>
-          <div className={classes.directionsChecklistItem}>
-            <StrikeThroughText variant={"h5"} text={"4. Lorem ipsum dolor sit amet"}/>
-          </div>
-          <div className={classes.directionsDescription}>
-            <Typography variant="body1">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</Typography>
-          </div>
-          <Divider/>
-        </div>
-
+      <div className = {`${classes.sectionMargin}`}>
+        <DirectionSectionList directionsList={directionSteps}></DirectionSectionList>
       </div>
       <div>
         <div className={classes.suggestionsSection}>

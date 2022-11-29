@@ -1,23 +1,23 @@
-const getRecipesEndpoint = 'recipes'
+const getRecipesEndpoint = '/recipes'
 
 const getRecipesByPage = (page) => {
     return new Promise((resolve, reject) => {
         fetch(getRecipesEndpoint +'?'+ new URLSearchParams({
             page: page}))
-        .then((response) => response.json())
-        .then((data) => {
-           console.log(data);
-           resolve(data);
-        })
-        .catch((error) => {
-            reject(error);
-        });
+            .then((response) => response.json())
+            .then((data) => {
+               console.log(data);
+               resolve(data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
     })
 }
 
 const getRecipesById = (id) => {
     return new Promise((resolve, reject) => {
-        fetch(getRecipesEndpoint + '/' + id)
+        fetch(`${getRecipesEndpoint}/${id}`)
         .then((response) => response.json())
         .then((data) => {
            console.log(data);
