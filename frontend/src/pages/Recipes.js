@@ -1,10 +1,28 @@
-import { Avatar, Card, CardHeader, CircularProgress, Divider, List, ListItem, ListItemText, Typography } from "@material-ui/core";
-import { AccessTimeFilled, IosShare, Print, Restaurant } from '@mui/icons-material';
-import { makeStyles } from '@material-ui/core/styles';
-import { Image } from 'mui-image'
-import {React, useEffect, useState} from "react";
+import {
+  Avatar,
+  Card,
+  CardHeader,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@material-ui/core";
+import {
+  AccessTimeFilled,
+  IosShare,
+  Print,
+  Restaurant,
+} from "@mui/icons-material";
+import { makeStyles } from "@material-ui/core/styles";
+import { Image } from "mui-image";
+import { React, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { recipeAndIngredientsList, testRecipeItems } from "../testData/testData";
+import {
+  recipeAndIngredientsList,
+  testRecipeItems,
+} from "../testData/testData";
 import RecipeCardList from "../components/RecipeCardList";
 import IngredientSectionList from "../components/recipes/IngredientSectionList";
 import StrikeThroughText from "../components/StrikeThroughText";
@@ -50,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     height: "100%",
     padding: "32px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
   },
   otherRecipesSection: {
     width: "30%",
@@ -92,70 +113,66 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Recipes = () => {
-const params = useParams();
-const [recipeData, setRecipeData] = useState({});
-const [directionSteps, setDirectionSteps] = useState({});
-const [isLoading, setIsLoading] = useState(true);
+  const params = useParams();
+  const [recipeData, setRecipeData] = useState({});
+  const [directionSteps, setDirectionSteps] = useState({});
+  const [ingredientList, setIngredientList] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-      const {recipeId} = params;
-      getRecipesById(recipeId).then((data) => {
+  useEffect(() => {
+    const { recipeId } = params;
+    getRecipesById(recipeId).then((data) => {
       setRecipeData(data.recipe);
       setDirectionSteps(data.steps);
+      setIngredientList(data.ingredients);
       setIsLoading(false);
       console.log(directionSteps);
-      })
-    }, [params])
+    });
+  }, [params]);
 
   const classes = useStyles();
 
-  return (
-    isLoading ? <CircularProgress /> :
+  return isLoading ? (
+    <CircularProgress />
+  ) : (
     <div>
-    <div className={classes.sectionMargin}>
-      <Typography variant="h1">{recipeData.Name}</Typography>
-      <div className={classes.headerSpacing}>
-        <div className = {classes.recipeHeader}>
-          <div className={classes.authorDetails} style={{paddingLeft: "0px"}}>
-                  <Avatar style={{marginRight: "16px"}}>XD</Avatar>
-                  <div>
-                    <Typography variant="subtitle2">Mico C</Typography>
-                    <Typography variant="caption">10 September 2022</Typography>
-                  </div>
-          </div>
-          <Divider orientation="vertical" flexItem />
-          <div className={classes.authorDetails}>
-            <AccessTimeFilled style={{marginRight: "16px"}}/>
-            <div>
-              <Typography variant="subtitle2">
-                PREP TIME
-              </Typography>
-              <Typography variant="caption">
-              {recipeData.Prep}
-              </Typography>
+      <div className={classes.sectionMargin}>
+        <Typography variant="h1">{recipeData.Name}</Typography>
+        <div className={classes.headerSpacing}>
+          <div className={classes.recipeHeader}>
+            <div
+              className={classes.authorDetails}
+              style={{ paddingLeft: "0px" }}
+            >
+              <Avatar style={{ marginRight: "16px" }}>XD</Avatar>
+              <div>
+                <Typography variant="subtitle2">Mico C</Typography>
+                <Typography variant="caption">10 September 2022</Typography>
+              </div>
+            </div>
+            <Divider orientation="vertical" flexItem />
+            <div className={classes.authorDetails}>
+              <AccessTimeFilled style={{ marginRight: "16px" }} />
+              <div>
+                <Typography variant="subtitle2">PREP TIME</Typography>
+                <Typography variant="caption">{recipeData.Prep}</Typography>
+              </div>
+            </div>
+            <Divider orientation="vertical" flexItem />
+            <div className={classes.authorDetails}>
+              <AccessTimeFilled style={{ marginRight: "16px" }} />
+              <div>
+                <Typography variant="subtitle2">COOK TIME</Typography>
+                <Typography variant="caption">{recipeData.CookTime ?? recipeData.PrepTime}</Typography>
+              </div>
+            </div>
+            <Divider orientation="vertical" flexItem />
+            <div className={classes.authorDetails}>
+              <Restaurant style={{ marginRight: "16px" }} />
+              <Typography variant="caption">{recipeData.Cuisine}</Typography>
             </div>
           </div>
-          <Divider orientation="vertical" flexItem />
-          <div className={classes.authorDetails}>
-            <AccessTimeFilled style={{marginRight: "16px"}}/>
-            <div>
-              <Typography variant="subtitle2">
-                COOK TIME
-              </Typography>
-              <Typography variant="caption">
-              {recipeData.CookTime}
-              </Typography>
-            </div>
-          </div>
-          <Divider orientation="vertical" flexItem />
-          <div className={classes.authorDetails}>
-            <Restaurant style={{marginRight: "16px"}}/>
-            <Typography variant="caption">
-            {recipeData.Cuisine}
-            </Typography>
-          </div>
-        </div>
-        <div className ={classes.recipeButtons}>
+          <div className={classes.recipeButtons}>
             <div className={classes.recipeButtonItem}>
               <Avatar>
                 <Print />
@@ -177,46 +194,39 @@ const [isLoading, setIsLoading] = useState(true);
         </div>
         <div className={classes.recipeMacros}>
           <Card className={classes.recipeMacrosCard}>
-            <CardHeader title={"Nutrition Information "}/>
-              <List>
-                  <ListItem>
-                    <ListItemText primary="Calories" />
-                    <span>
-                    <Typography>
-                    {recipeData.Calories}
-                    </Typography>
-                    </span>
-                  </ListItem>
-                  <Divider light/>
-                  <ListItem>
-                    <ListItemText primary="Total Fat" />
-                    <span>
-                    <Typography>
-                    {recipeData.Fat}
-                    </Typography>
-                    </span>
-                  </ListItem>
-                  <Divider light/>
-                  <ListItem>
-                    <ListItemText primary="Protein" />
-                    <span>
-                    <Typography>
-                    {recipeData.Protein}
-                    </Typography>
-                    </span>
-                  </ListItem>
-                  <Divider light />
-                  <ListItem>
-                    <ListItemText primary="Carbohydrate" />
-                    <span>
-                    <Typography>
-                    {recipeData.Carbs}
-                    </Typography>
-                    </span>
-                  </ListItem>
-              </List>
             <div>
+              <CardHeader title={"Nutrition Information "} />
+              <List>
+                <ListItem>
+                  <ListItemText primary="Calories" />
+                  <span>
+                    <Typography>{recipeData.Calories}</Typography>
+                  </span>
+                </ListItem>
+                <Divider light />
+                <ListItem>
+                  <ListItemText primary="Total Fat" />
+                  <span>
+                    <Typography>{recipeData.Fat}</Typography>
+                  </span>
+                </ListItem>
+                <Divider light />
+                <ListItem>
+                  <ListItemText primary="Protein" />
+                  <span>
+                    <Typography>{recipeData.Protein}</Typography>
+                  </span>
+                </ListItem>
+                <Divider light />
+                <ListItem>
+                  <ListItemText primary="Carbohydrate" />
+                  <span>
+                    <Typography>{recipeData.Carbs}</Typography>
+                  </span>
+                </ListItem>
+              </List>
             </div>
+            <div>{recipeData.Description}</div>
           </Card>
         </div>
       </div>
@@ -227,7 +237,8 @@ const [isLoading, setIsLoading] = useState(true);
         className={`${classes.sectionMargin} ${classes.ingredientsContainer}`}
       >
         <IngredientSectionList
-          recipeAndIngredientsList={recipeAndIngredientsList}
+          recipeName={recipeData.Name}
+          ingredientList={ingredientList}
         />
         <div className={classes.otherRecipesSection}>
           <Typography variant="h4" className={classes.otherRecipesHeader}>
@@ -236,7 +247,7 @@ const [isLoading, setIsLoading] = useState(true);
           <Card className={classes.otherRecipesCardItem}>
             <div className={classes.otherRecipesItem}>
               <div className={classes.otherRecipesItemPhoto}>
-              <Image src={recipeData.ImgLink} ></Image>
+                <Image src={recipeData.ImgLink}></Image>
               </div>
               <div className={classes.otherRecipesItemDescription}>
                 <Typography variant="h5">Meatballs and Pasta</Typography>
@@ -269,8 +280,10 @@ const [isLoading, setIsLoading] = useState(true);
         </div>
       </div>
 
-      <div className = {`${classes.sectionMargin}`}>
-        <DirectionSectionList directionsList={directionSteps}></DirectionSectionList>
+      <div className={`${classes.sectionMargin}`}>
+        <DirectionSectionList
+          directionsList={directionSteps}
+        ></DirectionSectionList>
       </div>
       <div>
         <div className={classes.suggestionsSection}>
