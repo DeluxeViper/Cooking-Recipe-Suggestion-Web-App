@@ -157,14 +157,6 @@ const Home = () => {
               />
               <Typography variant="h4" align="center">Rice</Typography>
             </Link>
-          <Link className={classes.linkRoute} to={ingredientsLink}>
-            <CardMedia
-                style={{marginBottom: "30px"}}
-                component="img"
-                image="https://encycolorpedia.com/emojis/cooked-rice.svg"
-            />
-            <Typography variant="h4" align="center">Rice</Typography>
-          </Link>
           </Card>
           <Card className={classes.ingredientCard}>
             <Link className={classes.linkRoute} to={ingredientsLink}>
