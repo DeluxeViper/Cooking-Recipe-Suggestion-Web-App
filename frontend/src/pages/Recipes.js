@@ -236,14 +236,14 @@ const Recipes = () => {
           </Card>
         </div>
       </div>
-      {/* <div
+      <div
         className={`${classes.sectionMargin} ${classes.ingredientsContainer}`}
       >
         <IngredientSectionList
           recipeName={recipeData.Name}
           ingredientList={ingredientList}
         />
-        <div className={classes.otherRecipesSection}>
+        {/* <div className={classes.otherRecipesSection}>
           <Typography variant="h4" className={classes.otherRecipesHeader}>
             Other Recipes
           </Typography>
@@ -280,8 +280,8 @@ const Recipes = () => {
               </div>
             </div>
           </Card>
-        </div>
-      </div> */}
+        </div> */}
+      </div>
 
       <div className={`${classes.sectionMargin}`}>
         <DirectionSectionList

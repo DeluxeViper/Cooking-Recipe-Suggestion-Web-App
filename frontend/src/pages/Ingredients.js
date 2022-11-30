@@ -1,9 +1,11 @@
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
 import SearchField from "../components/SearchField";
 import IngredientsList from "../components/ingredients/IngredientsList";
 import { testIngredientsList } from "../testData/testData";
+import { getRecipesByIngredients } from "../services/dataService";
+import RecipeCardList from "../components/RecipeCardList";
 
 const useStyles = makeStyles((theme) => ({
   sectionMargin: {
@@ -21,12 +23,14 @@ const Ingredients = () => {
   const [filter, setFilter] = useState("");
   const [ingredients, setIngredients] = useState();
   const [selectedIngrs, setSelectedIngrs] = useState([]);
+  const [matchedRecipes, setMatchedRecipes] = useState([]);
 
   useEffect(() => {
     populateIngredientsList();
   }, []);
 
   const populateIngredientsList = () => {
+    
     setIngredients([...testIngredientsList]);
   };
 
@@ -60,6 +64,12 @@ const Ingredients = () => {
       return newingrs;
     });
   };
+  const handleSearchClick = () => {
+    let ingredients = selectedIngrs.map(ingredient => ingredient.ingredientName.toLowerCase());
+    getRecipesByIngredients(ingredients).then((data) => {
+      setMatchedRecipes(data.results)
+    })
+  }
   return (
     <div className={classes.sectionMargin}>
       <div style={{ marginBottom: "50px" }}>
@@ -83,6 +93,9 @@ const Ingredients = () => {
         listId={"selected"}
         handleCardClick={handleSelectedCardClick}
       />
+       {selectedIngrs.length > 0 && <Button variant="contained" onClick={handleSearchClick}>Search for Recipes</Button>}
+       {matchedRecipes.length > 0  && <div><RecipeCardList recipeCardList={matchedRecipes}></RecipeCardList> </div>}
+
     </div>
   );
 };
