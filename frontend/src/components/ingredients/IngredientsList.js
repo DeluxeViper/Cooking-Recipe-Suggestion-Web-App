@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     "@media (min-width: 1500px)": {
       width: "100%",
     },
+    justifyContent: "center",
   },
   grid2: {
     width: "100%",

@@ -2,10 +2,10 @@ const getRecipesEndpoint = '/recipes'
 const getRecipesByCuisineEndpoint = '/cuisine'
 const getRecipesByIngredientEndpoint= '/search'
 
-const getRecipesByPage = (page) => {
+const getRecipesByPage = (page, pageSize=10) => {
     return new Promise((resolve, reject) => {
         fetch(`${getRecipesEndpoint}?${new URLSearchParams({
-            page: page})}`)
+            page: page, pageSize: pageSize})}`)
             .then((response) => response.json())
             .then((data) => {
                console.log(data);
@@ -77,7 +77,7 @@ const getRecipesByIngredients = (ingredients) => {
 const createIngredientSearchParam  = (array) => {
     let searchParam = '';
     for (const element of array) {
-        searchParam += new URLSearchParams({
+        searchParam += '&' + new URLSearchParams({
             ingredient: element }
         )
     }

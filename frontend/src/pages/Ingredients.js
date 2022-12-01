@@ -17,6 +17,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  centerContainer: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  sectionContainer: {
+    marginBottom: "40px",
+  }
 }));
 
 const Ingredients = () => {
@@ -26,6 +33,7 @@ const Ingredients = () => {
   const [selectedIngrs, setSelectedIngrs] = useState([]);
   const [matchedRecipes, setMatchedRecipes] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [noSearchResults, setNoSearchResults] = useState(false);
 
   useEffect(() => {
     populateIngredientsList();
@@ -37,12 +45,14 @@ const Ingredients = () => {
 
   const onChange = (event) => {
     setFilter(event.target.value);
-    if (event.target.value === null) {
+    if (event.target.value === null || event.target.value.length > 0) {
       setPageNumber(1);
     }
   };
 
   const handleCardClick = (e, ingredientName, ingredientImage) => {
+    setMatchedRecipes([]);
+    setNoSearchResults(false);
     console.log(ingredientName + ", " + ingredientImage);
     // Add element if it doesn't already exist in list
     const element = selectedIngrs.find(
@@ -57,6 +67,8 @@ const Ingredients = () => {
   };
 
   const handleSelectedCardClick = (e, ingredientName, ingredientImage) => {
+    setMatchedRecipes([]);
+    setNoSearchResults(false);
     console.log(`${ingredientName}, ${ingredientImage}`);
     setSelectedIngrs((ingrs) => {
       const newingrs = [...ingrs];
@@ -76,6 +88,11 @@ const Ingredients = () => {
     );
     getRecipesByIngredients(ingredients).then((data) => {
       setMatchedRecipes(data.results);
+      if(data.results.length === 0) {
+        setNoSearchResults(true);
+      } else {
+        setNoSearchResults(false);
+      }
     });
   };
   const handlePageNumber = (event, pageNumber) => {
@@ -85,7 +102,10 @@ const Ingredients = () => {
     <div className={classes.sectionMargin}>
       <div style={{ marginBottom: "50px" }}>
         <Typography variant="h1">Ingredients</Typography>
-        <div className={classes.headerSpacing}></div>
+        {/* <div className={classes.headerSpacing}></div> */}
+        <Typography gutterBottom variant="body1">
+          Search for the ingredients you have at home here and we will show you what recipes you can use !
+        </Typography>
       </div>
       <SearchField
         filter={filter}
@@ -109,41 +129,64 @@ const Ingredients = () => {
           listId={"notSelected"}
         />
       </div>
-      <Pagination
-        count={
-          ingredients && ingredients.filter((ingr) =>
-            ingr.ingredientName
-              .toLowerCase()
-              .indexOf(filter === undefined ? "" : filter.toLowerCase()) > -1
-          )
-            ? Math.floor(
-                ingredients.filter((ingr) =>
-                  ingr.ingredientName
-                    .toLowerCase()
-                    .indexOf(filter === undefined ? "" : filter.toLowerCase()) > -1
-                ).length / 10
-              )
-            : 200
-        }
-        color="primary"
-        onChange={(event, pageNumber) => handlePageNumber(event, pageNumber)}
-      />
+      <div className={`${classes.centerContainer} ${classes.sectionContainer}`}>
+        <Pagination
+          count={
+            ingredients && ingredients.filter((ingr) =>
+              ingr.ingredientName
+                .toLowerCase()
+                .indexOf(filter === undefined ? "" : filter.toLowerCase()) > -1
+            )
+              ? Math.floor(
+                  ingredients.filter((ingr) =>
+                    ingr.ingredientName
+                      .toLowerCase()
+                      .indexOf(filter === undefined ? "" : filter.toLowerCase()) > -1
+                  ).length / 10
+                )
+              : 200
+          }
+          color="primary"
+          onChange={(event, pageNumber) => handlePageNumber(event, pageNumber)}
+          page={pageNumber}
+        />
+      </div>
+      
       {selectedIngrs.length > 0 && (
-        <div>
-          <Typography variant="h2">Your Selected Ingredients</Typography>
+        <div className={classes.sectionContainer}>
+          <div className={classes.centerContainer}>
+            <Typography variant="h2">Your Selected Ingredients</Typography>
+          </div>
           <IngredientsList
             ingredients={selectedIngrs}
             listId={"selected"}
             handleCardClick={handleSelectedCardClick}
           />
-          <Button variant="contained" onClick={handleSearchClick}>
-            Search for Recipes
-          </Button>
+          <div className={classes.centerContainer}>
+            <Button variant="contained" onClick={handleSearchClick} color="primary">
+              Search for Recipes
+            </Button>
+          </div>
         </div>
+
+        
       )}
       {matchedRecipes.length > 0 && (
-        <div>
+        <div className={classes.sectionContainer}>
+          <Typography variant="h2">Search Results ({matchedRecipes.length})</Typography>
           <RecipeCardList recipeCardList={matchedRecipes}></RecipeCardList>{" "}
+        </div>
+      )}
+      {noSearchResults && (
+        <div className={classes.sectionContainer}>
+          <div className={classes.centerContainer}>
+            <Typography variant="h2">Search Results ({matchedRecipes.length})</Typography>
+          </div>
+          <div className={classes.centerContainer}>
+            <Typography gutterBottom variant="body1">
+              No Search Results !
+            </Typography>
+          </div>
         </div>
       )}
     </div>
