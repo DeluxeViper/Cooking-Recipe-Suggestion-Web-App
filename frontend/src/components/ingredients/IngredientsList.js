@@ -26,13 +26,6 @@ const IngredientsList = (props) => {
     <div className={classes.grid}>
       {props.ingredients ? (
         props.ingredients
-          .filter((ingr) =>
-            ingr.ingredientName
-              .toLowerCase()
-              .includes(
-                props.filter === undefined ? "" : props.filter.toLowerCase()
-              )
-          )
           .map((ingr) => {
             return (
               <IngredientCard
