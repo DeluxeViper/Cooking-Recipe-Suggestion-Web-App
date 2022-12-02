@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   },
   saveRecipeButton: {
     width: "50%",
+  },
+  fullWidth: {
+    width: "100%",
+    textDecoration: "none",
   }
 }));
 
@@ -112,7 +116,7 @@ const RecipeCard = (props) => {
           </CardActions>
           <CardActions>
             <Link
-              className={classes.viewRecipeLink}
+              className={(props.isOnSavedRecipes ? `${classes.fullWidth}` : `${classes.viewRecipeLink}`)}
               to={`${recipeLink}/${recipeCardItem.RecipeID}`}
             >
               <Button
@@ -127,7 +131,7 @@ const RecipeCard = (props) => {
               </Button>
             </Link>
             {!props.isOnSavedRecipes && (
-              <Button className={classes.saveRecipeButton}variant="outlined" onClick={addSavedRecipe}>
+              <Button className={classes.saveRecipeButton} variant="outlined" onClick={addSavedRecipe}>
                 Save Recipe
               </Button>
             )}
