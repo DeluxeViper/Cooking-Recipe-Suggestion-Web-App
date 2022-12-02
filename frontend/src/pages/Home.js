@@ -76,6 +76,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
+  },
+  chip: {
+    // backgroundImage: "linear-gradient(-45deg, #ff408c, #ff4040)",
+    backgroundColor: "#FFA04080",
   }
 }));
 
@@ -108,7 +112,7 @@ const Home = () => {
       <div className={classes.trendingSection}>
         <Card className={classes.trendingCard} raised>
           <CardContent className={classes.cardContent}>
-            <Chip label="🔥 Hot Recipe" />
+            <Chip className={classes.chip} label="🔥 Hot Recipe" />
             <Typography gutterBottom variant="h2" component="div">
               { featuredRecipeData.Name }
             </Typography>
@@ -116,8 +120,8 @@ const Home = () => {
               { featuredRecipeData.Description }
             </Typography>
             <CardActions className={classes.cardChips}>
-              <Chip label={"⏰ " + (featuredRecipeData.CookTime ?? featuredRecipeData.Prep) } />
-              <Chip label={"🍴 " + featuredRecipeData.Cuisine} />
+              <Chip className={classes.chip} label={"⏰ " + (featuredRecipeData.CookTime ?? featuredRecipeData.Prep) } />
+              <Chip className={classes.chip} label={"🍴 " + featuredRecipeData.Cuisine} />
             </CardActions>
             <div className={classes.authorDetails}>
               {/* <Avatar style={{marginRight: "16px"}}>AD</Avatar>
@@ -126,7 +130,7 @@ const Home = () => {
                 <Typography variant="caption" paragraph>10 September 2022</Typography>
               </div> */}
               <Link className={classes.linkRoute} to={`${recipeLink}/${featuredRecipeData.RecipeID}`}>
-                <Button className={classes.viewRecipeButton} variant="contained" >View Recipe</Button> 
+                <Button className={classes.viewRecipeButton} variant="outlined" >View Recipe</Button> 
               </Link>
             </div>
           </CardContent>
