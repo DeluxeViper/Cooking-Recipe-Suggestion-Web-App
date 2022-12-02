@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     width: "100%",
   },
+  chip: {
+    backgroundColor: "#FFA04080",
+  }
 }));
 
 const recipeLink = "/recipes";
@@ -97,8 +100,8 @@ const RecipeCard = (props) => {
         </div>
         <div className={classes.actionsContainer}>
           <CardActions className={classes.actions}>
-            <Chip label={"⏰ " + (recipeCardItem.CookTime ?? "0 mins")} />
-            <Chip label={`🍴 ${recipeCardItem.Cuisine}`} />
+            <Chip className={classes.chip} label={"⏰ " + (recipeCardItem.CookTime ?? "0 mins")} />
+            <Chip className={classes.chip} label={`🍴 ${recipeCardItem.Cuisine}`} />
           </CardActions>
           <CardActions>
             <Link
