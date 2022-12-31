@@ -16,7 +16,7 @@ With 1930 ingredients and 1489 recipes, `Cook.io` is a web application that prov
 - [Figma](https://www.figma.com/file/o5BUALx2HQwnzOOXdlYtFU/recipe-prototype?node-id=1%3A296)
 - Jira
 
-![alt text](demo_images/home_page_gif.gif)
+![alt text](demo_images/home_page_gif1.gif)
 
 ---
 
